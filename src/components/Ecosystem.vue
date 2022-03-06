@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import Multiselect from 'vue-multiselect'
-import { ref } from 'vue'
+import Multiselect from 'vue-multiselect';
+import { ref } from 'vue';
 
-const count = ref(1)
-const options = ref(['list', 'of', 'options'])
-const value = []
+const count = ref(1);
+const options = ref(['list', 'of', 'options']);
+const value = [];
 </script>
 <template>
   <div class="ecosystem">
