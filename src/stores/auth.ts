@@ -27,13 +27,12 @@ export const useAuthStore = defineStore({
      */
     async login(payload: ILoginOAuthData) {
       const { token } = payload;
-      console.log('login', token);
       // TODO verify token
       this.token = token;
 
       // Set to local storage and axios
-      localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = token;
+      localStorage.setItem('token', JSON.stringify(payload));
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     },
     async logout() {
       await axios.post('logout');
