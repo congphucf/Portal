@@ -1,28 +1,18 @@
 <template lang="pug">
 div
-  h2 Login
-  //Form(@submit="submit")
-  //FormLayout
-    // TODO TextField
-  form.login-form(
-    novalidate,
-    method="post",
-    @submit.prevent="submit"
-  )
-    input(
-      type="text",
-      placeholder="you_shopify_domain.myshopify.com",
-      v-model="shop"
-    )
-    button(type="submit")
-      span.mr-2(
-        v-if="isProcessing.value",
-      ) loading..
-      span Submit
+  Form(@submit="submit")
+    FormLayout
+      TextField(
+        v-model="shop"
+        placeholder="you_shopify_domain.myshopify.com",
+      )
+        template(#label) Hello
+      Button(submit)
+        Spinner(v-if="isProcessing.value")
+        span Login
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { Spinner } from '@qikify/polaris-vue';
 
 // Ref
 const isProcessing = ref(false);
@@ -36,8 +26,9 @@ const loginData = {
 * Methods
 */
 const submit = (): void => {
-  // TODO
+  alert(1);
   doLogin();
+  return false;
 };
 
 const doLogin = (): void => {
