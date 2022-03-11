@@ -1,5 +1,7 @@
 <template lang="pug">
-div
+Page(
+  full-width,
+)
   LoginForm
 </template>
 <script setup lang="ts">

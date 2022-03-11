@@ -1,15 +1,17 @@
 <template lang="pug">
 div
-  Form(@submit="submit")
+  Form(@submit.stop.prevent="submit")
     FormLayout
       TextField(
-        v-model="shop"
+        v-model="loginData.shop"
         placeholder="you_shopify_domain.myshopify.com",
       )
-        template(#label) Hello
-      Button(submit)
-        Spinner(v-if="isProcessing.value")
-        span Login
+        template(#label) Myshopify domain
+      Button(
+        submit,
+        primary,
+        :loading="isProcessing"
+      ) Login
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue';
@@ -26,7 +28,6 @@ const loginData = {
 * Methods
 */
 const submit = (): void => {
-  alert(1);
   doLogin();
   return false;
 };
