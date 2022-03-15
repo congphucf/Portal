@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import AuthView from '../views/AuthView.vue';
+import ProductView from '../views/ProductView.vue';
+import ProfileView from '../views/ProfileView.vue';
 import { useAuthStore } from '../stores/auth';
 
 /**
@@ -32,6 +34,18 @@ const routes = [
     path: '/auth',
     name: 'auth',
     component: AuthView,
+    meta: { auth: false }
+  },
+  {
+    path: '/products',
+    name: 'products',
+    component: ProductView,
+    meta: { auth: false }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfileView,
     meta: { auth: false }
   }
 ]
