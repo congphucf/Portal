@@ -12,7 +12,8 @@ export interface IAuthState {
   user: null | IUser;
 }
 
-const payloadToken = JSON.parse(localStorage.getItem(AuthConfig.TOKEN));
+const storageValue = localStorage.getItem(AuthConfig.TOKEN);
+const payloadToken = storageValue ? JSON.parse(storageValue) : null;
 
 const defaultState: IAuthState = {
   token: payloadToken ? payloadToken.token : null,
@@ -25,9 +26,14 @@ export const useAuthStore = defineStore({
   state: () => defaultState,
   getters: {
     isLoggedIn: state => {
-      return !!state.token && state.expired_at > Date.now();
+      return !!state.token 
+        && !!state.expired_at
+        && state.expired_at > Date.now();
     },
     timeout: state => {
+      if (!state.expired_at) {
+        return 0;
+      }
       return Math.round((state.expired_at - Date.now()) / 1000);
     },
     isReady: state => {
@@ -57,12 +63,12 @@ export const useAuthStore = defineStore({
 
       this.registerAuthorizonzationHeader(token);
     },
-    registerAuthorizonzationHeader(token: string) {
+    registerAuthorizonzationHeader(token: string | null) {
       // Set to local storage and axios
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     },
     async refresh() {
-      if (this.expired_at > Date.now()) {
+      if (this.expired_at && this.expired_at > Date.now()) {
         this.registerAuthorizonzationHeader(this.token);
       } else {
         await axios
