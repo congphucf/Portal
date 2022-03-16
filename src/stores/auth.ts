@@ -4,6 +4,7 @@ import type {
   ILoginOAuthData,
 } from '@/models/Auth';
 import axios from '@/bootstrap/api-interceptor';
+import AuthConfig from '@/configs/auth';
 
 export interface IAuthState {
   token: string;
@@ -31,12 +32,12 @@ export const useAuthStore = defineStore({
       this.token = token;
 
       // Set to local storage and axios
-      localStorage.setItem('token', JSON.stringify(payload));
+      localStorage.setItem(AuthConfig.TOKEN, JSON.stringify(payload));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     },
     async logout() {
       await axios.post('logout');
-      localStorage.removeItem('token');
+      localStorage.removeItem(AuthConfig.TOKEN);
       this.$reset();
 
       // TODO redirect user to login page

@@ -5,6 +5,12 @@
   background-color: $header-bg;
 }
 
+.navbar-brand {
+  padding: 0 1rem;
+  font-weight: 500;
+  color: var(--bs-primary);
+}
+
 .sidebar {
   position: fixed;
   top: $header-height - 1;

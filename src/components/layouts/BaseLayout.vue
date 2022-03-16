@@ -2,7 +2,7 @@
 .base-layout(
   :class="routerClass"
 )
-  nav.navbar.navbar-light
+  nav.navbar
     .container-fluid
       a.navbar-brand(
         href="#"

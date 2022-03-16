@@ -22,10 +22,12 @@ const doAuth = async (): Promise<void> => {
 };
 
 const auth = async (): Promise<void> => {
-  const { token } = route.query;
+  const { token, expires_in } = route.query;
   const payload: ILoginOAuthData = {
     token,
-  }
+    expires_in,
+    timestamp: Date.now(),
+  };
 
   await useAuthStore().login(payload);
   await useAuthStore().getUser();
