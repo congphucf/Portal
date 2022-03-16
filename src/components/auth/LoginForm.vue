@@ -8,7 +8,7 @@
       FormLayout
         TextField(
           v-model="loginData.shop"
-          placeholder="you_shopify_domain.myshopify.com",
+          placeholder="your_shopify_domain.myshopify.com",
         )
           template(#label) 
             .mb-2 
@@ -21,7 +21,7 @@
             :loading="isProcessing"
           ) Login
   .login-footer
-    a(href="javascript:;") &copy; Subscription
+    a(href="javascript:;") &copy; Subscription 2022
     a(href="https://subscription.com/contact") Contact
     a(href="https://subscription.com/privacy") Privacy & terms
 </template>
