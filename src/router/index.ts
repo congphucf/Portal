@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import AuthView from '../views/AuthView.vue';
 import ProductView from '../views/ProductView.vue';
+import SubscriberView from '../views/SubscriberView.vue';
+import SettingView from '../views/SettingView.vue';
 import ProfileView from '../views/ProfileView.vue';
 import { useAuthStore } from '../stores/auth';
 
@@ -39,6 +41,16 @@ const routes = [
     path: '/products',
     name: 'products',
     component: ProductView,
+  },
+  {
+    path: '/subscribers',
+    name: 'subscribers',
+    component: SubscriberView,
+  },
+  {
+    path: '/setting',
+    name: 'setting',
+    component: SettingView,
   },
   {
     path: '/profile',

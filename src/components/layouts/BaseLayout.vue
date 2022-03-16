@@ -30,6 +30,7 @@ import ProductsMajor from '@shopify/polaris-icons/dist/svg/ProductsMajor.svg';
 import ProfileMajor from '@shopify/polaris-icons/dist/svg/ProfileMajor.svg';
 import SettingsMajor from '@shopify/polaris-icons/dist/svg/SettingsMajor.svg';
 import CustomersMajor from '@shopify/polaris-icons/dist/svg/CustomersMajor.svg';
+import StoreMajor from '@shopify/polaris-icons/dist/svg/StoreMajor.svg';
 
 const route = useRoute();
 const routerClass = computed(() => route.matched.map(m => `page--${m.name}`));
@@ -46,14 +47,19 @@ const sidebarItems = [
     icon: ProductsMajor,
   },
   {
-    name: 'profile',
+    name: 'subscribers',
     label: 'Subscribers',
     icon: CustomersMajor,
   },
   {
-    name: 'profile',
+    name: 'setting',
     label: 'Settings',
     icon: SettingsMajor,
+  },
+  {
+    name: 'profile',
+    label: 'My Account',
+    icon: ProfileMajor,
   },
 ];
 </script>

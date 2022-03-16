@@ -60,11 +60,11 @@ const doRefreshToken = (): void => {
   const timeout = auth.timeout;
   setTimeout(() => {
     // First time
-    auth.refreshToken();
+    auth.refresh();
 
     // Refresh token in interval
     setInterval(async () => {
-      await auth.refreshToken();
+      await auth.refresh();
     }, AuthConfig.INTERVAL_REFRESH * 1000 * 60);
   }, timeout);
 }
