@@ -79,7 +79,6 @@ export const useAuthStore = defineStore({
       }
     },
     async logout() {
-      await axios.post('logout');
       localStorage.removeItem(AuthConfig.TOKEN);
       this.$reset();
 

@@ -1,17 +1,29 @@
 <template lang="pug">
-div
-  Form(@submit.stop.prevent="submit")
-    FormLayout
-      TextField(
-        v-model="loginData.shop"
-        placeholder="you_shopify_domain.myshopify.com",
-      )
-        template(#label) Myshopify domain
-      Button(
-        submit,
-        primary,
-        :loading="isProcessing"
-      ) Login
+.login-form
+  .login-header
+    .login-logo
+      span.h3 Subscription
+  .login-body
+    Form(@submit.stop.prevent="submit")
+      FormLayout
+        TextField(
+          v-model="loginData.shop"
+          placeholder="you_shopify_domain.myshopify.com",
+        )
+          template(#label) 
+            .mb-2 
+              span Enter your store domain 
+              span.color-danger *
+        .login-action
+          Button(
+            submit,
+            primary,
+            :loading="isProcessing"
+          ) Login
+  .login-footer
+    a(href="javascript:;") &copy; Subscription
+    a(href="https://subscription.com/contact") Contact
+    a(href="https://subscription.com/privacy") Privacy & terms
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue';

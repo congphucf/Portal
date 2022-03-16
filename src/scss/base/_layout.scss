@@ -11,6 +11,18 @@
   color: var(--bs-primary);
 }
 
+.main {
+  padding-left: $sidebar-width;
+
+  @include media-breakpoint-down(md) {
+    padding-left: $sidebar-width;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+}
+
 .sidebar {
   position: fixed;
   top: $header-height - 1;
@@ -32,16 +44,10 @@
   }
 }
 
-.main {
-  padding-left: $sidebar-width;
-
-  @include media-breakpoint-down(md) {
-    padding-left: $sidebar-width;
-  }
-
-  .main-content {
-    padding: 1rem;
-  }
+.sidebar-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .sidebar-nav {

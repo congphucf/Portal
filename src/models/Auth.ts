@@ -4,8 +4,9 @@ export interface IAuthResponseData {
 }
 
 export interface IUser {
-  email: string;
   name: string;
+  email: string;
+  domain: string;
 }
 
 export interface ILoginOAuthData {

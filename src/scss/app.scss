@@ -15,6 +15,10 @@
 @import '@qikify/polaris-vue/dist/style.css';
 
 // Layout
+@import 'base/root';
 @import 'base/layout';
+
+// Pages
+@import 'pages/login';
 
 // Components

@@ -1,7 +1,9 @@
 <template lang="pug">
 AppProvider
   template(v-if="isReady")
-    BaseLayout
+    BaseLayout(v-if="isAuthenticatedRouter")
+      RouterView
+    AuthLayout(v-else)
       RouterView
   .vh-100.d-flex.align-items-center.justify-content-center(v-else)
     div(v-if="hasError")
@@ -24,6 +26,7 @@ import { useRoute, useRouter, RouterLink, RouterView } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import AuthConfig from '@/configs/auth';
 import BaseLayout from '@/components/layouts/BaseLayout.vue';
+import AuthLayout from '@/components/layouts/AuthLayout.vue';
 
 const isReady = ref(false);
 const hasError = ref(false);
@@ -50,11 +53,11 @@ const appInit = async (): Promise<void> => {
 
 const checkReadyState = (): void => {
   isReady.value = auth.isReady(route);
-}
+};
 
 const updateRouterState = (): void => {
   isAuthenticatedRouter.value = !(route.meta && route.meta.auth === false);
-}
+};
 
 const doRefreshToken = (): void => {
   const timeout = auth.timeout;
@@ -67,7 +70,7 @@ const doRefreshToken = (): void => {
       await auth.refresh();
     }, AuthConfig.INTERVAL_REFRESH * 1000 * 60);
   }, timeout);
-}
+};
 
 watch(() => route.fullPath, () => {
   updateRouterState();

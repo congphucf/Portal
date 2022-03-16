@@ -16,6 +16,12 @@
             router-link.nav-link(:to="{ name: item.name }")
               Icon(:source="item.icon")
               span {{ item.label }}
+      .sidebar-footer
+        ul.nav.sidebar-nav.mt-auto
+          li.nav-item
+            a.nav-link(href="javascript:;", @click="logout")
+              Icon(:source="LogOutMinor")
+              span Logout
         // Frame
           span Inside a frame
     main.main
@@ -24,17 +30,19 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
 import HomeMajor from '@shopify/polaris-icons/dist/svg/HomeMajor.svg';
 import ProductsMajor from '@shopify/polaris-icons/dist/svg/ProductsMajor.svg';
 import ProfileMajor from '@shopify/polaris-icons/dist/svg/ProfileMajor.svg';
 import SettingsMajor from '@shopify/polaris-icons/dist/svg/SettingsMajor.svg';
 import CustomersMajor from '@shopify/polaris-icons/dist/svg/CustomersMajor.svg';
 import StoreMajor from '@shopify/polaris-icons/dist/svg/StoreMajor.svg';
+import LogOutMinor from '@shopify/polaris-icons/dist/svg/LogOutMinor.svg';
 
 const route = useRoute();
+const router = useRouter();
 const routerClass = computed(() => route.matched.map(m => `page--${m.name}`));
-
 const sidebarItems = [
   {
     name: 'home',
@@ -62,4 +70,9 @@ const sidebarItems = [
     icon: ProfileMajor,
   },
 ];
+
+const logout = async () => {
+  await useAuthStore().logout();
+  router.push({ name: 'login' });
+}
 </script>
