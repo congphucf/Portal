@@ -13,7 +13,7 @@
           template(#label) 
             .mb-2 
               span Enter your store domain 
-              span.color-danger *
+              span.text-danger *
         .login-action
           Button(
             submit,
