@@ -4,12 +4,13 @@
 </template>
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import type { ILoginOAuthData } from '@/models/auth';
 
 const isProcessing = ref(false);
 const route = useRoute();
+const router = useRouter();
 
 const doAuth = async (): Promise<void> => {
   isProcessing.value = true;
@@ -23,15 +24,17 @@ const doAuth = async (): Promise<void> => {
 
 const auth = async (): Promise<void> => {
   const { token, expires_in } = route.query;
+  const expired_at = Date.now() + (expires_in - 60) * 1000;
   const payload: ILoginOAuthData = {
     token,
-    expires_in,
-    timestamp: Date.now(),
+    expired_at,
   };
 
   await useAuthStore().login(payload);
   await useAuthStore().getUser();
-  // await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // Go to home
+  router.push({ name: 'home' });
 };
 
 onMounted(() => {

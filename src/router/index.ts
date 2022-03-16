@@ -14,7 +14,6 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
-    meta: { auth: false }
   },
   {
     path: '/about',
@@ -40,13 +39,11 @@ const routes = [
     path: '/products',
     name: 'products',
     component: ProductView,
-    meta: { auth: false }
   },
   {
     path: '/profile',
     name: 'profile',
     component: ProfileView,
-    meta: { auth: false }
   }
 ]
 

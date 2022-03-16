@@ -7,12 +7,16 @@ import axios from '@/bootstrap/api-interceptor';
 import AuthConfig from '@/configs/auth';
 
 export interface IAuthState {
-  token: string;
+  token: null | string;
+  expired_at: null | number;
   user: null | IUser;
 }
 
+const payloadToken = JSON.parse(localStorage.getItem(AuthConfig.TOKEN));
+
 const defaultState: IAuthState = {
-  token: '',
+  token: payloadToken ? payloadToken.token : null,
+  expired_at: payloadToken ? payloadToken.expired_at : null,
   user: null,
 };
 
@@ -20,20 +24,53 @@ export const useAuthStore = defineStore({
   id: 'auth',
   state: () => defaultState,
   getters: {
-    isLoggedIn: state => !!state.token,
+    isLoggedIn: state => {
+      return !!state.token && state.expired_at > Date.now();
+    },
+    timeout: state => {
+      return Math.round((state.expired_at - Date.now()) / 1000);
+    },
+    isReady: state => {
+      return (route: any) => {
+        const isUserRoute = route.matched
+          .some((rc: any) => rc.meta.auth && rc.meta.auth !== false);
+
+        if (isUserRoute) {
+          return !!state.token;
+        }
+
+        return true;
+      };
+    },
   },
   actions: {
     /**
      * OAuth with token
      */
     async login(payload: ILoginOAuthData) {
-      const { token } = payload;
+      localStorage.setItem(AuthConfig.TOKEN, JSON.stringify(payload));
+
+      const { token, expired_at } = payload;
       // TODO verify token
       this.token = token;
+      this.expired_at = expired_at;
 
+      this.registerAuthorizonzationHeader(token);
+    },
+    registerAuthorizonzationHeader(token: string) {
       // Set to local storage and axios
-      localStorage.setItem(AuthConfig.TOKEN, JSON.stringify(payload));
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    },
+    async refresh() {
+      if (this.expired_at > Date.now()) {
+        this.registerAuthorizonzationHeader(this.token);
+      } else {
+        await axios
+          .post('token/refresh', { token: this.token })
+          .then(({ data }) => {
+            this.login(data);
+          });
+      }
     },
     async logout() {
       await axios.post('logout');
