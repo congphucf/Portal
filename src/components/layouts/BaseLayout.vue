@@ -7,7 +7,7 @@
       a.navbar-brand(
         href="#"
         @click="$router.push('/')"
-      ) Subscriptions
+      ) OE Scaffolding
   .wrapper
     aside.sidebar
       .sidebar-body
