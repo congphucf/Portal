@@ -12,12 +12,12 @@ export interface IAuthState {
   user: null | IUser;
 }
 
-const storageValue = localStorage.getItem(AuthConfig.TOKEN);
-const payloadToken = storageValue ? JSON.parse(storageValue) : null;
+const storageValue = localStorage.getItem(AuthConfig.TOKEN) || '{}';
+const payloadToken = JSON.parse(storageValue);
 
 const defaultState: IAuthState = {
-  token: payloadToken ? payloadToken.token : null,
-  expired_at: payloadToken ? payloadToken.expired_at : null,
+  token: payloadToken.token,
+  expired_at: payloadToken.expired_at,
   user: null,
 };
 
@@ -54,6 +54,10 @@ export const useAuthStore = defineStore({
      * OAuth with token
      */
     async login(payload: ILoginOAuthData) {
+      if (!payload) {
+        throw new Error('Payload is not valid');
+      }
+
       localStorage.setItem(AuthConfig.TOKEN, JSON.stringify(payload));
 
       const { token, expired_at } = payload;

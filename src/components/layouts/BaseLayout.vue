@@ -18,10 +18,10 @@
               span {{ item.label }}
       .sidebar-footer
         ul.nav.sidebar-nav.mt-auto
-          li.nav-item
-            a.nav-link(href="javascript:;", @click="logout")
-              Icon(:source="LogOutMinor")
-              span Logout
+          li.nav-item(v-for="item in sidebarFooterItems" :key="item.name")
+            router-link.nav-link(:to="{ name: item.name }")
+              Icon(:source="item.icon")
+              span {{ item.label }}
         // Frame
           span Inside a frame
     main.main
@@ -64,6 +64,9 @@ const sidebarItems = [
     label: 'Settings',
     icon: SettingsMajor,
   },
+];
+
+const sidebarFooterItems = [
   {
     name: 'profile',
     label: 'My Account',

@@ -1,6 +1,7 @@
 <template lang="pug">
 .page-auth
-  span Loading...
+  .vh-100.d-flex.align-items-center.justify-content-center
+    Spinner(message="Authenticating...")
 </template>
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
