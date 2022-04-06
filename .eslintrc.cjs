@@ -14,11 +14,6 @@ module.exports = {
   env: {
     'vue/setup-compiler-macros': true,
   },
-  extends: [
-    'plugin:vue/vue3-essential',
-    '@vue/airbnb',
-    '@vue/typescript/recommended',
-  ],
   settings: {
     'import/resolver': {
       alias: {
@@ -35,11 +30,24 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'object-curly-newline': 'off',
+    'import/no-extraneous-dependencies': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
+    'import/no-unresolved': 'off',
+    'import/no-duplicates': 'off',
+    'import/order': 'off',
+    'import/no-cycle': 'off',
+    'import/no-self-import': 'off',
+    'import/no-relative-packages': 'off',
+    'import/named': 0,
+    'import/export': 0,
+    'import/no-default-export': 0,
+    'import/prefer-default-export': 0,
   },
   overrides: [
     {
       files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
         'cypress/integration/**.spec.{js,ts,jsx,tsx}',
       ],
       extends: [
