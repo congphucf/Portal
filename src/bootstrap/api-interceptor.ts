@@ -9,7 +9,6 @@ import AppConfig from '../configs/app';
 //   params?: any;
 // }
 
-console.log(AppConfig.API_URL);
 const instance = axios.create({
   baseURL: AppConfig.API_URL,
   timeout: 5000,
@@ -18,16 +17,16 @@ const instance = axios.create({
   },
 });
 
-instance.interceptors.request.use((config) => {
-  // if (config.errorHandling) {
-  //   store.dispatch('serverError/clearErrors');
-  // }
-
-  return config;
-});
+// instance.interceptors.request.use(config => {
+//   if (config.errorHandling) {
+//     store.dispatch('serverError/clearErrors');
+//   }
+//
+//   return config;
+// });
 
 instance.interceptors.response.use(
-  response => response.data,
+  (response) => response.data,
   (error) => {
     if (error.response) {
       const { status } = error.response;
@@ -38,7 +37,7 @@ instance.interceptors.response.use(
       // 401 mean not authorized or token expired, should login again
       if (status === 401) {
         const { message } = error.response.data;
-        useAuthStore().logout;
+        useAuthStore().logout();
         // TODO notify error
       } else if (status >= 400 && status <= 599) {
         if (error.config.errorHandling !== false) {
@@ -74,7 +73,7 @@ instance.interceptors.response.use(
       }
 
       return Promise.reject(error.response.data);
-    } else if (error.request) {
+    } if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js

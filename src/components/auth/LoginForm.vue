@@ -10,9 +10,9 @@
           v-model="loginData.shop"
           placeholder="your_shopify_domain.myshopify.com",
         )
-          template(#label) 
-            .mb-2 
-              span Enter your store domain 
+          template(#label)
+            .mb-2
+              span Enter your store domain
               span.text-danger *
         .login-action
           Button(
@@ -36,19 +36,19 @@ const loginData = {
   shop: '',
 };
 
-/**
-* Methods
-*/
-const submit = (): void => {
-  doLogin();
-  return false;
-};
-
 const doLogin = (): void => {
   isProcessing.value = true;
   setTimeout(() => {
     console.log('login success');
     isProcessing.value = false;
   }, 2000);
+};
+
+/**
+* Methods
+*/
+const submit = (): void => {
+  doLogin();
+  return false;
 };
 </script>

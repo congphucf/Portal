@@ -1,5 +1,6 @@
 import vue from '@vitejs/plugin-vue';
 import svgLoader from 'vite-svg-loader';
+import eslintPlugin from '@nabla/vite-plugin-eslint';
 import { defineConfig } from 'vite';
 import { fileURLToPath, URL } from 'url';
 
@@ -11,6 +12,11 @@ export default defineConfig({
   plugins: [
     vue(),
     svgLoader(),
+    eslintPlugin({
+      eslintOptions: {
+        cache: false,
+      },
+    }),
   ],
   resolve: {
     alias: {
