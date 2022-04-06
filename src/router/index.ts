@@ -23,19 +23,19 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (About.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('../views/AboutView.vue')
+    component: () => import('../views/AboutView.vue'),
   },
   {
     path: '/login',
     name: 'login',
     component: LoginView,
-    meta: { auth: false }
+    meta: { auth: false },
   },
   {
     path: '/auth',
     name: 'auth',
     component: AuthView,
-    meta: { auth: false }
+    meta: { auth: false },
   },
   {
     path: '/products',
@@ -56,19 +56,19 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: ProfileView,
-  }
-]
+  },
+];
 
 /**
  * Create the router instance.
  */
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
 router.beforeEach((to, from, next) => {
-  const isUserRoute = to.matched.some(record => record.meta.auth !== false);
+  const isUserRoute = to.matched.some((record) => record.meta.auth !== false);
   if (isUserRoute) {
     const { isLoggedIn } = useAuthStore();
     if (isLoggedIn) {
@@ -76,7 +76,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next({
         name: 'login',
-        query: { redirect: to.fullPath }
+        query: { redirect: to.fullPath },
       });
     }
   } else {
@@ -84,4 +84,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-export default router
+export default router;

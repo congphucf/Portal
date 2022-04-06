@@ -42,7 +42,7 @@ import LogOutMinor from '@shopify/polaris-icons/dist/svg/LogOutMinor.svg';
 
 const route = useRoute();
 const router = useRouter();
-const routerClass = computed(() => route.matched.map(m => `page--${m.name}`));
+const routerClass = computed(() => route.matched.map((m) => `page--${m.name}`));
 const sidebarItems = [
   {
     name: 'home',
@@ -77,5 +77,5 @@ const sidebarFooterItems = [
 const logout = async () => {
   await useAuthStore().logout();
   router.push({ name: 'login' });
-}
+};
 </script>

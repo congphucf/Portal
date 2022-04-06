@@ -18,16 +18,15 @@ const instance = axios.create({
   },
 });
 
-instance.interceptors.request.use((config) => {
-  // if (config.errorHandling) {
-  //   store.dispatch('serverError/clearErrors');
-  // }
+instance.interceptors.request.use((config) =>
+// if (config.errorHandling) {
+//   store.dispatch('serverError/clearErrors');
+// }
 
-  return config;
-});
+  config);
 
 instance.interceptors.response.use(
-  response => response.data,
+  (response) => response.data,
   (error) => {
     if (error.response) {
       const { status } = error.response;
@@ -74,7 +73,7 @@ instance.interceptors.response.use(
       }
 
       return Promise.reject(error.response.data);
-    } else if (error.request) {
+    } if (error.request) {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js

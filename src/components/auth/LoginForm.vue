@@ -10,9 +10,9 @@
           v-model="loginData.shop"
           placeholder="your_shopify_domain.myshopify.com",
         )
-          template(#label) 
-            .mb-2 
-              span Enter your store domain 
+          template(#label)
+            .mb-2
+              span Enter your store domain
               span.text-danger *
         .login-action
           Button(

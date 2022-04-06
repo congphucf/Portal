@@ -4,9 +4,8 @@
   pre {{ user }}
 </template>
 <script setup lang="ts">
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth';
 
 const auth = useAuthStore();
-const user = auth.user;
+const { user } = auth;
 </script>
-

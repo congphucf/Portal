@@ -25,28 +25,24 @@ export const useAuthStore = defineStore({
   id: 'auth',
   state: () => defaultState,
   getters: {
-    isLoggedIn: state => {
-      return !!state.token 
+    isLoggedIn: (state) => !!state.token
         && !!state.expired_at
-        && state.expired_at > Date.now();
-    },
-    timeout: state => {
+        && state.expired_at > Date.now(),
+    timeout: (state) => {
       if (!state.expired_at) {
         return 0;
       }
       return Math.round((state.expired_at - Date.now()) / 1000);
     },
-    isReady: state => {
-      return (route: any) => {
-        const isUserRoute = route.matched
-          .some((rc: any) => rc.meta.auth && rc.meta.auth !== false);
+    isReady: (state) => (route: any) => {
+      const isUserRoute = route.matched
+        .some((rc: any) => rc.meta.auth && rc.meta.auth !== false);
 
-        if (isUserRoute) {
-          return !!state.token;
-        }
+      if (isUserRoute) {
+        return !!state.token;
+      }
 
-        return true;
-      };
+      return true;
     },
   },
   actions: {
@@ -69,7 +65,7 @@ export const useAuthStore = defineStore({
     },
     registerAuthorizonzationHeader(token: string | null) {
       // Set to local storage and axios
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     },
     async refresh() {
       if (this.expired_at && this.expired_at > Date.now()) {
