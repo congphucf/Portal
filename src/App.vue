@@ -40,17 +40,6 @@ const reload = () => {
   window.location.reload();
 };
 
-const appInit = async (): Promise<void> => {
-  try {
-    await auth.refresh();
-    await auth.getUser();
-    doRefreshToken();
-  } catch (error) {
-    console.log('Cannot start subscription portal', err); //eslint-disable-line
-    throw error;
-  }
-};
-
 const checkReadyState = (): void => {
   isReady.value = auth.isReady(route);
 };
@@ -60,7 +49,7 @@ const updateRouterState = (): void => {
 };
 
 const doRefreshToken = (): void => {
-  const timeout = auth.timeout;
+  const { timeout } = auth;
   setTimeout(() => {
     // First time
     auth.refresh();
@@ -70,6 +59,17 @@ const doRefreshToken = (): void => {
       await auth.refresh();
     }, AuthConfig.INTERVAL_REFRESH * 1000 * 60);
   }, timeout);
+};
+
+const appInit = async (): Promise<void> => {
+  try {
+    await auth.refresh();
+    await auth.getUser();
+    doRefreshToken();
+  } catch (error) {
+    console.log('Cannot start subscription portal', err); //eslint-disable-line
+    throw error;
+  }
 };
 
 watch(() => route.fullPath, () => {

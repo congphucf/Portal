@@ -6,4 +6,3 @@ export default {
   INITIAL: 'INITIAL',
   TOKEN: 'subscription_user_token',
 };
-
