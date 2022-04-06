@@ -36,19 +36,19 @@ const loginData = {
   shop: '',
 };
 
-/**
-* Methods
-*/
-const submit = (): void => {
-  doLogin();
-  return false;
-};
-
 const doLogin = (): void => {
   isProcessing.value = true;
   setTimeout(() => {
     console.log('login success');
     isProcessing.value = false;
   }, 2000);
+};
+
+/**
+* Methods
+*/
+const submit = (): void => {
+  doLogin();
+  return false;
 };
 </script>

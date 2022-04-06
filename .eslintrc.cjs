@@ -32,6 +32,7 @@ module.exports = {
     'object-curly-newline': 'off',
     'import/no-extraneous-dependencies': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
     'import/no-unresolved': 'off',
     'import/no-duplicates': 'off',
     'import/order': 'off',

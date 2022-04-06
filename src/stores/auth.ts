@@ -8,7 +8,7 @@ import AuthConfig from '@/configs/auth';
 
 export interface IAuthState {
   token: null | string;
-  expired_at: null | number;
+  expiredAt: null | number; // eslint-disable-line camelcase
   user: null | IUser;
 }
 
@@ -17,7 +17,7 @@ const payloadToken = JSON.parse(storageValue);
 
 const defaultState: IAuthState = {
   token: payloadToken.token,
-  expired_at: payloadToken.expired_at,
+  expiredAt: payloadToken.expiredAt,
   user: null,
 };
 
@@ -26,13 +26,13 @@ export const useAuthStore = defineStore({
   state: () => defaultState,
   getters: {
     isLoggedIn: (state) => !!state.token
-        && !!state.expired_at
-        && state.expired_at > Date.now(),
+        && !!state.expiredAt
+        && state.expiredAt > Date.now(),
     timeout: (state) => {
-      if (!state.expired_at) {
+      if (!state.expiredAt) {
         return 0;
       }
-      return Math.round((state.expired_at - Date.now()) / 1000);
+      return Math.round((state.expiredAt - Date.now()) / 1000);
     },
     isReady: (state) => (route: any) => {
       const isUserRoute = route.matched
@@ -56,10 +56,10 @@ export const useAuthStore = defineStore({
 
       localStorage.setItem(AuthConfig.TOKEN, JSON.stringify(payload));
 
-      const { token, expired_at } = payload;
+      const { token, expiredAt } = payload;
       // TODO verify token
       this.token = token;
-      this.expired_at = expired_at;
+      this.expiredAt = expiredAt;
 
       this.registerAuthorizonzationHeader(token);
     },
@@ -68,7 +68,7 @@ export const useAuthStore = defineStore({
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     },
     async refresh() {
-      if (this.expired_at && this.expired_at > Date.now()) {
+      if (this.expiredAt && this.expiredAt > Date.now()) {
         this.registerAuthorizonzationHeader(this.token);
       } else {
         await axios

@@ -11,5 +11,5 @@ export interface IUser {
 
 export interface ILoginOAuthData {
   token: string;
-  expired_at: number;
+  expiredAt: number;
 }

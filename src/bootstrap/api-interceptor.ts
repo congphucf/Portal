@@ -9,7 +9,6 @@ import AppConfig from '../configs/app';
 //   params?: any;
 // }
 
-console.log(AppConfig.API_URL);
 const instance = axios.create({
   baseURL: AppConfig.API_URL,
   timeout: 5000,
@@ -18,12 +17,13 @@ const instance = axios.create({
   },
 });
 
-instance.interceptors.request.use((config) =>
-// if (config.errorHandling) {
-//   store.dispatch('serverError/clearErrors');
-// }
-
-  config);
+// instance.interceptors.request.use(config => {
+//   if (config.errorHandling) {
+//     store.dispatch('serverError/clearErrors');
+//   }
+//
+//   return config;
+// });
 
 instance.interceptors.response.use(
   (response) => response.data,
@@ -37,7 +37,7 @@ instance.interceptors.response.use(
       // 401 mean not authorized or token expired, should login again
       if (status === 401) {
         const { message } = error.response.data;
-        useAuthStore().logout;
+        useAuthStore().logout();
         // TODO notify error
       } else if (status >= 400 && status <= 599) {
         if (error.config.errorHandling !== false) {

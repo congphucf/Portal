@@ -13,6 +13,21 @@ const isProcessing = ref(false);
 const route = useRoute();
 const router = useRouter();
 
+const auth = async (): Promise<void> => {
+  const { token, expires_in: expiresIn } = route.query;
+  const expiredAt = Date.now() + (expiresIn - 60) * 1000;
+  const payload: ILoginOAuthData = {
+    token,
+    expiredAt,
+  };
+
+  await useAuthStore().login(payload);
+  await useAuthStore().getUser();
+
+  // Go to home
+  router.push({ name: 'home' });
+};
+
 const doAuth = async (): Promise<void> => {
   isProcessing.value = true;
   try {
@@ -21,21 +36,6 @@ const doAuth = async (): Promise<void> => {
     console.error(error);
   }
   isProcessing.value = false;
-};
-
-const auth = async (): Promise<void> => {
-  const { token, expires_in } = route.query;
-  const expired_at = Date.now() + (expires_in - 60) * 1000;
-  const payload: ILoginOAuthData = {
-    token,
-    expired_at,
-  };
-
-  await useAuthStore().login(payload);
-  await useAuthStore().getUser();
-
-  // Go to home
-  router.push({ name: 'home' });
 };
 
 onMounted(() => {

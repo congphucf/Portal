@@ -32,6 +32,7 @@
     "yarn": "^1.22.17"
   },
   "devDependencies": {
+    "@nabla/vite-plugin-eslint": "^1.4.0",
     "@rushstack/eslint-patch": "^1.1.0",
     "@types/jsdom": "^16.2.14",
     "@types/node": "^16.11.22",
