@@ -1,29 +1,51 @@
+import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import svgLoader from 'vite-svg-loader';
-import eslintPlugin from '@nabla/vite-plugin-eslint';
-import { defineConfig } from 'vite';
-import { fileURLToPath, URL } from 'url';
+import path from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    port: 6100,
-  },
   plugins: [
     vue(),
     svgLoader(),
-    eslintPlugin({
-      eslintOptions: {
-        cache: false,
-      },
-    }),
   ],
+  define: {
+    'process.env': {},
+  },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '~':  path.resolve(__dirname, './node_modules'),
+      '@': path.resolve(__dirname, './src'),
+      '@icons': path.resolve(__dirname, './node_modules/@shopify/polaris-icons/dist/svg'),
     },
-    dedupe: [
-      'vue',
-    ],
   },
-});
+  server: {
+    // https://github.com/vitejs/vite/issues/4259
+    hmr: {
+      protocol: 'ws',
+      host: 'localhost',
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    }
+  },
+  build: {
+    cssCodeSplit: true,
+    lib: {
+      entry: path.resolve(__dirname, 'src/main.ts'),
+      name: 'Scaffolding portal',
+      fileName: () => 'portal.js',
+      formats: ['umd'],
+    },
+    rollupOptions: {
+      output: {
+        inlineDynamicImports: true,
+      },
+    },
+  },
+})
+
+
