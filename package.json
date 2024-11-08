@@ -14,7 +14,10 @@
   },
   "dependencies": {
     "@ownego/polaris-vue": "2.1.13",
+    "@shopify/app-bridge": "^3.7.10",
+    "chart.js": "^4.4.6",
     "vue": "3.5.12",
+    "vue-chartjs": "^5.3.2",
     "vue-router": "4.4.5"
   },
   "devDependencies": {

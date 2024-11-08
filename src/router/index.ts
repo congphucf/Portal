@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import { AppLayout } from '@/components';
-import { Dashboard } from '@/pages';
+import { Dashboard, Analytic, ManualRecommend, AutoRecommend } from '@/pages';
 import { AppConfig } from '@/configs';
 
 const routes = [
@@ -17,8 +17,25 @@ const routes = [
         name: 'app',
         component: Dashboard,
       },
+
+      {
+        path: 'analytic', 
+        name: 'analytic',
+        component: Analytic,
+      },
+      {
+        path: 'manual-recommend', 
+        name: 'manualRecommend',
+        component: ManualRecommend,
+      },
+      {
+        path: 'auto-recommend', 
+        name: 'autoRecommend',
+        component: AutoRecommend,
+      },
     ],
   },
+
 ];
 
 const router = createRouter({
