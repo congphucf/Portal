@@ -44,11 +44,12 @@
 
     Text.title(as="h2", variant="headingMd") Recommendation features
     Box.features 
-      Box.card(v-for="(product, index) in products" :key="index" padding="4" shadow="small" border="neutral")
+      Box.card(v-for="(feature, index) in features" :key="index" padding="4" shadow="small" border="neutral")
         Box.media
-          img(:src="product.image" alt="" width="200px")
-        Text(as="h3", variant="headingSm") {{ product.title }}
-        Button.primary {{ product.buttonText }}
+          img(:src="feature.image" alt="" width="200px")
+        Text(as="h3", variant="headingSm") {{ feature.title }}
+        router-link(:to="feature.link")
+          Button.primary {{ feature.buttonText }}
     
 </template>
 
@@ -58,26 +59,30 @@ import { inject, ref } from 'vue';
 const account = inject('account');
 console.log(account);
 
-const products = ref([
+const features = ref([
   {
     image: '/public/Image/mzz70155_navy_xl.jpg',
     title: 'Frequently Bought',
     buttonText: 'Get Started',
+    link:'/auto-recommend'
   },
   {
     image: '/public/Image/mzz70155_navy_xl.jpg',
     title: 'Related Products',
     buttonText: 'Get Started',
+    link:'/auto-recommend'
   },
   {
     image: '/public/Image/mzz70155_navy_xl.jpg',
     title: 'Manual Recommendations',
     buttonText: 'Get Started',
+    link:'/manual-recommend'
   },
   {
     image: '/public/Image/mzz70155_navy_xl.jpg',
-    title: 'Post Purchase Upsell',
+    title: 'Analytics',
     buttonText: 'Get Started',
+    link:'/analytic'
   },
 ]);
 

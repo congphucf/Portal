@@ -8,16 +8,16 @@ import App from './App.vue';
 const account = { username: 'user123', role: 'admin' };
 
 const app = createApp(App);
-const appBridge = createShopifyApp({
-  apiKey: '5d14bceb5e8726c98d1abc23aab12f3b',  
-  host: new URLSearchParams(window.location.search).get('host'), 
-  forceRedirect: true,
-});
+// const appBridge = createShopifyApp({
+//   apiKey: '5d14bceb5e8726c98d1abc23aab12f3b',  
+//   host: new URLSearchParams(window.location.search).get('host'), 
+//   forceRedirect: true,
+// });
 
 app.use(PolarisVue);
 app.use(router);
 
-app.provide('appBridge', appBridge);
+// app.provide('appBridge', appBridge);
 app.provide('isPortal', true);
 app.provide('isEmbed', true);
 app.provide('account', account);

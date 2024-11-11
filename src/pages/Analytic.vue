@@ -20,11 +20,14 @@
                     Text(as='h2', variant="headingSm") Total click 
                 Box.click_histogram.histogram_box.border
                     Text(as='h2', variant="headingSm") Click histogram
+                    Line(:data="chartData" :options="chartOptions")
+
             Box.add_to_cart.flex
                 Box.total_add_to_cart.result_box.border
                     Text(as='h2', variant="headingSm") Total add to cart 
                 Box.add_to_cart_histogram.histogram_box.border
                     Text(as='h2', variant="headingSm") Add to cart diagram 
+                    Line(:data="chartData" :options="chartOptions")
             
         Box.item_click_and_add.full_size_box.border
             Text(as='h2', variant="headingSm") Analytics for each item 
@@ -98,8 +101,13 @@
 
 <script setup lang="ts">
 import { DatePicker } from '@ownego/polaris-vue';
-import { ref, computed, resolveComponent,h, onMounted } from 'vue';
+import { ref, computed, resolveComponent,h, onMounted, reactive } from 'vue';
 import { inject } from 'vue';
+import { Line } from 'vue-chartjs'  // Đảm bảo đã import đúng component Line từ vue-chartjs
+import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement } from 'chart.js'
+
+ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement);
+
 
 const account = inject('account');
 console.log(account);
@@ -223,7 +231,6 @@ const handleTaggedWithChange = (_e: Event, value: string) => {
   taggedWith.value = value;
 };
 
-
 const handleClearAll = () => {
   handleTaggedWithRemove();
   handleQueryValueRemove();
@@ -252,6 +259,72 @@ const filteredProducts = computed(() =>
     product.name.toLowerCase().includes(queryValue.value.toLowerCase())
   )
 );
+
+
+// Tạo dữ liệu fake
+function generateFakeClickData(daysCount: number) {
+  const clickData = [];
+  const startDate = new Date();
+  
+  for (let i = 0; i < daysCount; i++) {
+    const date = new Date(startDate);
+    date.setDate(startDate.getDate() - i);  // Tạo ngày cho các ngày trước
+
+    clickData.push({
+      date: date.toISOString().split('T')[0],  // Chỉ lấy phần ngày (YYYY-MM-DD)
+      clicks: Math.floor(Math.random() * 100) + 1  // Số lần click ngẫu nhiên từ 1 đến 100
+    });
+  }
+
+  return clickData;
+}
+const clickData = generateFakeClickData(10);
+
+const chartData = reactive({
+  labels: clickData.map((item) => item.date),  // Lấy các ngày
+  datasets: [
+    {
+      label: 'Số lần Click',
+      data: clickData.map((item) => item.clicks),  // Lấy số lần click
+      borderColor: '#42A5F5',
+      backgroundColor: 'rgba(66, 165, 245, 0.2)',
+      fill: true,
+    },
+  ],
+})
+
+const chartOptions = reactive({
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+    tooltip: {
+      callbacks: {
+        label: function (tooltipItem: any) {
+          return `Clicks: ${tooltipItem.raw}`
+        },
+      },
+    },
+  },
+  scales: {
+    x: {
+      title: {
+        display: true,
+        text: 'Ngày',
+      },
+    },
+    y: {
+      title: {
+        display: true,
+        text: 'Số Click',
+      },
+      min: 0,
+    },
+  },
+})
+
 
 </script>
 
@@ -291,7 +364,7 @@ const filteredProducts = computed(() =>
 
 .result_box{
     min-width: 200px;
-    min-height: 200px;
+    max-height: 300px;
     padding: 20px;
     margin: 20px;
     background-color: white;
@@ -299,7 +372,7 @@ const filteredProducts = computed(() =>
 
 .histogram_box{
     min-width: 300px;
-    min-height: 200px;
+    height: 300px;
     padding: 20px;
     margin: 20px;
     background-color: white;

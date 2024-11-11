@@ -9,6 +9,7 @@
             ResourceList(
               :resourceName="{ singular: 'product', plural: 'products' }"
               :items="products"
+              :pagination="pagination"
             )
                 template(#filterControl)
                     Filters(
@@ -37,7 +38,29 @@
                         Button(@click="toggleDropdown(product.id) ") Edit
 
                     div.resource-item-edit(:class="{ 'expanded': dropdownVisible === product.id }")
-                      LegacyCard
+                      div(v-if="recommended_items[product.id] && recommended_items[product.id].length > 0")
+                        Text(as="h3", variant="headingSm") List of recommended items
+                        LegacyCard(style="margin-bottom: 20px; margin-top: 10px;")
+                          ResourceList(
+                              :resourceName="{ singular: 'product', plural: 'products' }"
+                              :items="products"
+                              :showHeader="false"
+                            )
+                            template(v-for="productId in recommended_items[product.id]" :key="productId")
+                              ResourceItem(
+                                :id="productId"
+                              )
+                                div.resource-item-info
+                                  div.resource-item-content
+                                    img(:src="products[productId-1].image" style="width: 50px; height: 70px; margin: 10px;")
+                                    div(style= "display: flex; justify-content: center;flex-direction: column;")
+                                      Text(variant="bodyMd" fontWeight="bold" as="h3") {{ products[productId-1].name }}
+                                      div {{ products[productId-1].location }}
+                                  div(style= "display: flex; justify-content: center;flex-direction: column;")
+                                    Button(variant="primary" @click = "delteRecommendeditems(product.id, productId)") Delete 
+
+                      Text(as="h3", variant="headingSm") Add more
+                      LegacyCard(style="margin-bottom: 20px; margin-top: 10px;")
                         ResourceList(
                           :resourceName="{ singular: 'product', plural: 'products' }"
                           :items="products"
@@ -65,14 +88,16 @@
                                       Text(variant="bodyMd" fontWeight="bold" as="h3") {{ product.name }}
                                       div {{ product.location }}
                                   div(style= "display: flex; justify-content: center;flex-direction: column;")
-                                    Button Add
+                                    Button(@click = "addRecommendedItem(dropdownVisible , product.id)") Add
 </template>
 
 <script setup lang="ts">
+import { LegacyCard } from '@ownego/polaris-vue';
 import { ref, computed, resolveComponent,h, onMounted } from 'vue';
 import { inject } from 'vue';
 
 const account = inject('account');
+account.username = "abs";
 console.log(account);
 
 interface Product {
@@ -101,9 +126,36 @@ const taggedWith = ref('');
 const queryValue = ref('');
 const subQueryValue = ref('');
 const subTaggedWith = ref('');
-const dropdownVisible = ref<number | null>(null);
+const dropdownVisible = ref<number>(-1);
 const products = ref<Product[]>([]);
 
+const recommended_items = ref<number[][]>([[]]);
+
+
+
+//Add recommended_items
+function addRecommendedItem(productIndex : number, recommendedProduct: number) {
+  if (!recommended_items.value[productIndex]) {
+    recommended_items.value[productIndex] = [];
+  }
+  if (!recommended_items.value[productIndex].includes(recommendedProduct)) {
+      recommended_items.value[productIndex].push(recommendedProduct);
+      console.log(recommended_items.value[productIndex]);
+  }
+  else{
+      console.log("Đã tồn tại");
+  }
+}
+
+function delteRecommendeditems(productIndex:number, recommendedProduct:number){
+  if(recommended_items.value[productIndex]){
+    const index = recommended_items.value[productIndex].indexOf(recommendedProduct);
+
+    if (index>-1){
+      recommended_items.value[productIndex].splice(index, 1);
+    }
+  }
+}
 
 //Load products
 const loadImages = () => {
@@ -118,10 +170,17 @@ const loadImages = () => {
 };
 onMounted(loadImages);
 
+const pagination = {
+  hasNext: true,
+  onNext: () => {
+    console.log('Next');
+  },
+}
+
 
 //Handle edit
 function toggleDropdown(id: number): void {
-  dropdownVisible.value = dropdownVisible.value === id ? null : id;
+  dropdownVisible.value = dropdownVisible.value === id ? -1 : id;
   subQueryValue.value=''
 }
 
@@ -264,11 +323,9 @@ const subFilteredProducts = computed(() =>
     overflow: hidden;
     margin-bottom: auto;
     transition: display 2s , opacity 2s , max-height 2s ;
-    max-height: 0;
 
     &.expanded {
         display: flex;
-        max-height: 500px; 
         padding-top: 10px;
         padding-bottom: 10px;
         min-height: 100px;
@@ -300,6 +357,11 @@ const subFilteredProducts = computed(() =>
 
 .resource-item-content{
   display: flex;
+}
 
+.border{
+  border-radius: 10px;
+  border: 0.5px solid #d5d5d5;
+  background-color: white;
 }
 </style>
